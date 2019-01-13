@@ -1,0 +1,71 @@
+<!-- Site pour voire si internet fonctionne avec requete + ajouter log quand ca fonctionne pas Chorno quand fonctionne pas -->
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Test internet</title>
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body class="red" onload="check_internet()">
+	<br>
+	<div class="container">
+		<p id="heure" class="clock">.</p>
+		<h1 id="title">Tout fonctionne !</h1>
+
+		<ol id="test"></ol>
+	</div>
+
+
+
+
+	<script type="text/javascript">
+
+
+		function online(){
+			console.log('online')
+			$('body').removeClass('red')
+			$('body').addClass('green')
+		}
+
+		function offline(){
+			console.log('offline')
+			$('body').removeClass('green')
+			$('body').addClass('red')
+		}
+
+		function check_internet(){
+			if (window.navigator.onLine) {
+				online()
+			}else{
+				offline()
+			}
+		}
+
+		setInterval(check_internet, 1000)
+
+		function clock() { // We create a new Date object and assign it to a variable called "time".
+			var time = new Date(),
+				hours = time.getHours(),
+				minutes = time.getMinutes(),
+				seconds = time.getSeconds();
+			document.querySelectorAll('.clock')[0].innerHTML = harold(hours) + ":" + harold(minutes) + ":" + harold(seconds);
+
+			function harold(standIn) {
+				if (standIn < 10) {
+					standIn = '0' + standIn
+				}
+				return standIn;
+			}
+		}
+		setInterval(clock, 1000);
+	</script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</body>
+
+</html>
