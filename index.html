@@ -6,6 +6,7 @@
 	<title>Test internet</title>
 	<link rel="stylesheet" href="assets/css/style.css">
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link href="assets/fontaw/css/all.css" rel="stylesheet">	<script src="assets/js/ip.js"></script>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
@@ -13,8 +14,10 @@
 <body class="red" onload="check_internet()">
 	<br>
 	<div class="container">
-		<p id="heure" class="clock">.</p>
-		<h1 id="title">Tout fonctionne !</h1>
+		<kbd>Time: <span id="heure" class="clock">00:00:00</span></kbd>
+		<h1 id="connected" class="title">You are connected <i class="fas fa-check"></i></h1>
+		<h1 id="disconnected" class="title">You are disconnected <i class="fas fa-times"></i></h1>
+		<p>Your local ip is <kbd id="local_ip">?</kbd></p>
 
 		<ol id="test"></ol>
 	</div>
@@ -24,18 +27,40 @@
 
 	<script type="text/javascript">
 
+		var statut = "x"
 
 		function online(){
 			console.log('online')
-			$('body').removeClass('red')
-			$('body').addClass('green')
+
+			if(statut != "online"){
+				console.log('Connection is back')
+
+				test_ip()
+				$('body').removeClass('bg-danger')
+				$('body').addClass('bg-success')
+
+				$('#disconnected').hide()
+				$('#connected').show()
+			}
+
+			statut = "online"
 		}
 
 		function offline(){
-			console.log('offline')
-			$('body').removeClass('green')
-			$('body').addClass('red')
+
+			if(statut != "offline"){
+				console.log('Lost connection')
+
+				$('body').removeClass('bg-success')
+				$('body').addClass('bg-danger')
+
+				$('#connected').hide()
+				$('#disconnected').show()
+			}
+
+			statut = "offline"
 		}
+
 
 		function check_internet(){
 			if (window.navigator.onLine) {
@@ -43,6 +68,16 @@
 			}else{
 				offline()
 			}
+		}
+
+		function test_ip(){
+			var ip_tested = true
+			getIPs(function(ip){
+				if (ip_tested) {
+					ip_tested = false
+					$('#local_ip').text(ip)
+				}
+			});
 		}
 
 		setInterval(check_internet, 1000)
@@ -64,7 +99,8 @@
 		setInterval(clock, 1000);
 	</script>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="assets/js/jquery.js"></script>
+
 
 </body>
 
