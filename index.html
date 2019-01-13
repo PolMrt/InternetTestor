@@ -11,13 +11,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 
-<body class="red" onload="check_internet()">
+<body class="bg-success" onload="check_internet()">
 	<br>
 	<div class="container">
 		<kbd>Time: <span id="heure" class="clock">00:00:00</span></kbd>
 		<h1 id="connected" class="title">You are connected <i class="fas fa-check"></i></h1>
 		<h1 id="disconnected" class="title">You are disconnected <i class="fas fa-times"></i></h1>
 		<p>Your local ip is <kbd id="local_ip">?</kbd></p>
+		<hr>
+		<h3>Find the logs</h3>
+		<p>If you want to find your disconnections, you just have to right click and inspect the element. After, go to the console tab, here you will find all the connections and disconnections with the time when they occurred.</p>
 
 		<ol id="test"></ol>
 	</div>
@@ -27,13 +30,12 @@
 
 	<script type="text/javascript">
 
-		var statut = "x"
+		var statut = "."
 
 		function online(){
-			console.log('online')
 
 			if(statut != "online"){
-				console.log('Connection is back')
+				console.log(get_time() + ' - Connection is back')
 
 				test_ip()
 				$('body').removeClass('bg-danger')
@@ -49,7 +51,7 @@
 		function offline(){
 
 			if(statut != "offline"){
-				console.log('Lost connection')
+				console.log(get_time() + ' - Lost connection')
 
 				$('body').removeClass('bg-success')
 				$('body').addClass('bg-danger')
@@ -80,7 +82,17 @@
 			});
 		}
 
+
+
 		setInterval(check_internet, 1000)
+
+		function get_time(){
+			var time = new Date(),
+				hours = time.getHours(),
+				minutes = time.getMinutes(),
+				seconds = time.getSeconds();
+			return (hours) + ":" + (minutes) + ":" + (seconds);
+		}
 
 		function clock() { // We create a new Date object and assign it to a variable called "time".
 			var time = new Date(),
